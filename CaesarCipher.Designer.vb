@@ -34,6 +34,7 @@ Partial Class CaesarCipher
         Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -57,7 +58,7 @@ Partial Class CaesarCipher
         'EsciToolStripMenuItem
         '
         Me.EsciToolStripMenuItem.Name = "EsciToolStripMenuItem"
-        Me.EsciToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
+        Me.EsciToolStripMenuItem.Size = New System.Drawing.Size(112, 26)
         Me.EsciToolStripMenuItem.Text = "Quit"
         '
         'ToolStripMenuItem1
@@ -70,7 +71,7 @@ Partial Class CaesarCipher
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(125, 26)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'TextBox1
@@ -133,11 +134,21 @@ Partial Class CaesarCipher
         Me.Label3.TabIndex = 7
         Me.Label3.Text = "Encrypted text:"
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(277, 249)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 26)
+        Me.Button2.TabIndex = 8
+        Me.Button2.Text = "Decrypt"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
         'CaesarCipher
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1287, 511)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TextBox3)
@@ -168,4 +179,5 @@ Partial Class CaesarCipher
     Friend WithEvents AboutToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
+    Friend WithEvents Button2 As Button
 End Class
