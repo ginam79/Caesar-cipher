@@ -18,7 +18,7 @@ Public Class CaesarCipher
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
-        MsgBox("Created by ginam79 - MMXVI")
+        MsgBox("Created by ginam79 - MMXVI - Italian version")
     End Sub
 
     Public Function encrypt(ByVal key As Integer, ByVal input As String) As String
@@ -47,7 +47,7 @@ Public Class CaesarCipher
 
         Dim frequencies(25) As Double
         If sum <> 0 Then
-            For Each index In freq
+            For index = 0 To 25
                 frequencies(index) = freq(index) / sum
             Next
         End If
@@ -59,26 +59,54 @@ Public Class CaesarCipher
     Public Function shift_text(ByVal input As String, ByVal index As Integer) As String
         input = Regex.Replace(input, "[^a-zA-Z]+", "")
 
-        Return New String(input.Replace(" ", "").Replace(vbCr, "").Replace(vbLf, "").ToUpper().Select(Function(c) Chr(((Asc(c) - index - Asc("A"c)) Mod 26) + Asc("A"c))).ToArray())
+        Return New String(input.ToUpper().Select(Function(c) Chr(((Asc(c) + 26 - index - Asc("A"c)) Mod 26) + Asc("A"c))).ToArray())
 
     End Function
 
-    Public Function decrypt(ByVal input As String)
+    Public Function find_index(ByVal input As String) As Integer
         Dim it_freq(26) As Double
 
-        it_freq = {0.0848, 0.0064, 0.043, 0.04, 0.1196, 0.0095, 0.0128, 0.0073, 0.1143, 0.0002, 0.0016, 0.0575, 0.0268, 0.0757, 0.0848, 0.0318, 0.03, 0.0731, 0.0667, 0.0643, 0.0333, 0.0157, 0.0088, 0.023, 0.14, 0.01, 0.053}
+        it_freq = {0.0848, 0.0064, 0.043, 0.04, 0.1196, 0.0095, 0.0128, 0.0073, 0.1143, 0.0002, 0.0016, 0.0575, 0.0268, 0.0757, 0.0848, 0.0318, 0.03, 0.0731, 0.0667, 0.0643, 0.0333, 0.0157, 0.0088, 0.023, 0.14, 0.0153}
 
-        Dim i As Integer
+        Dim i, j As Integer
         Dim shifted_text As String
         Dim i_freq(25) As Double
+        Dim chi(25, 25) As Double
+        Dim chi_sum(25) As Double
 
         For i = 0 To 25
             shifted_text = shift_text(input, i)
             i_freq = calculate_frequencies(shifted_text)
+            For j = 0 To 25
+                chi(i, j) = ((i_freq(j) - it_freq(j)) ^ 2) / it_freq(j)
+            Next
+            For j = 0 To 25
+                chi_sum(i) += chi(i, j)
+            Next
         Next
+
+        Dim shift As Integer
+        shift = chi_sum.IndexOf(chi_sum, chi_sum.Min)
+
+        If shift <> -1 Then
+            Return shift
+        Else
+            Return 0
+        End If
+    End Function
+
+    Public Function decrypt(ByVal input As String, ByVal shift As Integer) As String
+
+        Return New String(input.ToUpper().Select(Function(c) Chr(((Asc(c) + 26 - shift - Asc("A"c)) Mod 26) + Asc("A"c))).ToArray())
+
     End Function
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        TextBox1.Text = decrypt(TextBox2.Text)
+
+        Dim index As Integer
+
+        index = find_index(TextBox2.Text)
+        TextBox1.Text = decrypt(TextBox2.Text, index)
+        TextBox3.Text = index
     End Sub
 End Class
